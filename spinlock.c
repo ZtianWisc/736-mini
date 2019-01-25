@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <string.h>
 
 pthread_spinlock_t lock;
 int pshared = PTHREAD_PROCESS_PRIVATE;
@@ -18,7 +19,7 @@ void *increment(void *arg) {
     pthread_exit(NULL);
 }
 
-void *printf(void *arg){
+void *print(void *arg){
     int i;
     for (i = 0; i < loops; i++){
       pthread_spin_lock(&lock);
@@ -41,10 +42,10 @@ main(int argc, char *argv[])
     pthread_t p1, p2;
     pthread_spin_init(&lock, pshared);
     gettimeofday(&tv1, NULL);
-    if (argv[1] == "increment"){
+    if (strcmp(argv[1], "increment")==0){
       pthread_create(&p1, NULL, increment, NULL); 
       pthread_create(&p2, NULL, increment, NULL);
-    } else if (argv[1] == "print"){
+    } else if (strcmp(argv[1], "print")==0){
       pthread_create(&p1, NULL, print, NULL);
       pthread_create(&p2, NULL, print, NULL);
     } else {
@@ -53,9 +54,9 @@ main(int argc, char *argv[])
     }
     pthread_join(p1, NULL);
     pthread_join(p2, NULL);
+    gettimeofday(&tv2, NULL);
     printf("result value   : %d\n", counter);
     pthread_spin_destroy(&lock);
-    gettimeofday(&tv2, NULL);
     if (tv1.tv_usec > tv2.tv_usec){
       tv2.tv_sec--;
       tv2.tv_usec += 1000000;

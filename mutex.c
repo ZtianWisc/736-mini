@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include <string.h>
 
 pthread_mutex_t lock;
 volatile int counter = 0; 
@@ -17,7 +18,7 @@ void *increment(void *arg) {
     pthread_exit(NULL);
 }
 
-void *printf(void *arg){
+void *print(void *arg){
     int i;
     for (i = 0; i < loops; i++){
       pthread_mutex_lock(&lock);
@@ -39,10 +40,10 @@ int main(int argc, char *argv[])
     pthread_t p1, p2;
     pthread_mutex_init(&lock, NULL);
     gettimeofday(&tv1, NULL);
-    if (argv[1] == "increment"){
+    if (strcmp(argv[1], "increment")==0){
       pthread_create(&p1, NULL, increment, NULL); 
       pthread_create(&p2, NULL, increment, NULL);
-    } else if (argv[1] == "print"){
+    } else if (strcmp(argv[1], "print")==0){
       pthread_create(&p1, NULL, print, NULL);
       pthread_create(&p2, NULL, print, NULL);
     } else {
@@ -51,8 +52,8 @@ int main(int argc, char *argv[])
     }
     pthread_join(p1, NULL);
     pthread_join(p2, NULL);
-    printf("Final value   : %d\n", counter);
     gettimeofday(&tv2, NULL);
+    printf("Final value   : %d\n", counter);
     if (tv1.tv_usec > tv2.tv_usec){
       tv2.tv_sec--;
       tv2.tv_usec += 1000000;
