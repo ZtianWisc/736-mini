@@ -3,16 +3,27 @@
 #include <sys/time.h>
 #include <pthread.h>
 
-pthread_mutex_t m;
+pthread_mutex_t lock;
 volatile int counter = 0; 
 int loops;
 
-void *worker(void *arg) {
+void *increment(void *arg) {
     int i;
     for (i = 0; i < loops; i++) {
-      pthread_mutex_lock(&m);
+      pthread_mutex_lock(&lock);
       ++counter;
-      pthread_mutex_unlock(&m);
+      pthread_mutex_unlock(&lock);
+    }
+    pthread_exit(NULL);
+}
+
+void *printf(void *arg){
+    int i;
+    for (i = 0; i < loops; i++){
+      pthread_mutex_lock(&lock);
+      printf("%d\n", counter);
+      ++counter;
+      pthread_mutex_unlock(&lock);
     }
     pthread_exit(NULL);
 }
@@ -20,15 +31,24 @@ void *worker(void *arg) {
 int main(int argc, char *argv[])
 {
     struct timeval tv1, tv2;
-    if (argc != 2) { 
-      exit(1); 
-    } 
-    loops = atoi(argv[1]);
+    if (argc != 3) {
+      fprintf(stderr, "usage: ./mutex [increment | print] #loops\n");
+      exit(1);
+    }
+    loops = atoi(argv[2]);
     pthread_t p1, p2;
-    pthread_mutex_init(&m, NULL);
+    pthread_mutex_init(&lock, NULL);
     gettimeofday(&tv1, NULL);
-    pthread_create(&p1, NULL, worker, NULL); 
-    pthread_create(&p2, NULL, worker, NULL);
+    if (argv[1] == "increment"){
+      pthread_create(&p1, NULL, increment, NULL); 
+      pthread_create(&p2, NULL, increment, NULL);
+    } else if (argv[1] == "print"){
+      pthread_create(&p1, NULL, print, NULL);
+      pthread_create(&p2, NULL, print, NULL);
+    } else {
+      fprintf(stderr, "usage: ./mutex [increment | print] #loops\n");
+      exit(1);
+    }
     pthread_join(p1, NULL);
     pthread_join(p2, NULL);
     printf("Final value   : %d\n", counter);
