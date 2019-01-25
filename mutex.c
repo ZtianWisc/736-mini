@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <pthread.h>
 
 pthread_mutex_t m;
 volatile int counter = 0; 
@@ -16,8 +17,7 @@ void *worker(void *arg) {
     pthread_exit(NULL);
 }
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     struct timeval tv1, tv2;
     if (argc != 2) { 
