@@ -22,6 +22,9 @@ void *print(void *arg){
     int i;
     for (i = 0; i < loops; i++){
       pthread_mutex_lock(&lock);
+      for (int k = 0; k < 9; k++){
+        printf("%d, ", counter);
+      }
       printf("%d\n", counter);
       ++counter;
       pthread_mutex_unlock(&lock);
