@@ -8,7 +8,7 @@ pthread_spinlock_t lock;
 int pshared = PTHREAD_PROCESS_PRIVATE;
 volatile int counter = 0; 
 int loops;
-int n_threads = 8;
+size_t n_threads = 32;
 
 void *increment(void *arg) {
     int i;

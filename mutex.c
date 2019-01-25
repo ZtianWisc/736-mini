@@ -7,7 +7,7 @@
 pthread_mutex_t lock;
 volatile int counter = 0; 
 int loops;
-size_t n_threads = 8;
+size_t n_threads = 32;
 
 void *increment(void *arg) {
     int k;
