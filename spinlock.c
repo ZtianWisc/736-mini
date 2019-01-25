@@ -19,15 +19,19 @@ void *increment(void *arg) {
     pthread_exit(NULL);
 }
 
-void *print(void *arg){
+int fib_rec(int n){
+  if (n < 2) {
+    return 1;
+  } else {
+    return fib_rec(n - 1) + fib_rec(n - 2);
+  }
+}
+
+void *fib(void *arg){
     int i;
     for (i = 0; i < loops; i++){
       pthread_spin_lock(&lock);
-      for (int k = 0; k < 9; k++){
-        printf("%d, ", counter);
-      }
-      printf("%d\n", counter);
-      ++counter;
+      int c = fib_rec(++counter);
       pthread_spin_unlock(&lock);
     }
     pthread_exit(NULL);
@@ -38,21 +42,21 @@ main(int argc, char *argv[])
 {
     struct timeval tv1, tv2;
     if (argc != 3) {
-      fprintf(stderr, "usage: ./spin [increment | print] #loops\n");
+      fprintf(stderr, "usage: ./spin [inc | fib] #loops\n");
       exit(1);
     }
     loops = atoi(argv[2]);
     pthread_t p1, p2;
     pthread_spin_init(&lock, pshared);
     gettimeofday(&tv1, NULL);
-    if (strcmp(argv[1], "increment")==0){
+    if (strcmp(argv[1], "inc")==0){
       pthread_create(&p1, NULL, increment, NULL); 
       pthread_create(&p2, NULL, increment, NULL);
-    } else if (strcmp(argv[1], "print")==0){
-      pthread_create(&p1, NULL, print, NULL);
-      pthread_create(&p2, NULL, print, NULL);
+    } else if (strcmp(argv[1], "fib")==0){
+      pthread_create(&p1, NULL, fib, NULL);
+      pthread_create(&p2, NULL, fib, NULL);
     } else {
-      fprintf(stderr, "usage: ./spin [increment | print] #loops\n");
+      fprintf(stderr, "usage: ./spin [inc | fib] #loops\n");
       exit(1);
     }
     pthread_join(p1, NULL);
