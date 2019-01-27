@@ -31,12 +31,10 @@ int main(int argc, char* argv[])
     // write from read to write
     size_t n_char = atoi(argv[2]);
     char* buffer = (char*) malloc(n_char * sizeof(char));
-    long double bytes = 0.0;
     // get start time
     gettimeofday(&tv1, NULL);
     while(fread(buffer, sizeof(char), n_char, rd) != 0){
         fwrite(buffer, sizeof(char), n_char, wt);
-        bytes += n_char;
     }
     // get done time
     gettimeofday(&tv2, NULL);
