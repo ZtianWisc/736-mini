@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     char* buffer = (char*) malloc(n_char * sizeof(char));
     // get start time
     gettimeofday(&tv1, NULL);
-    while(fread(buffer, sizeof(char), n_char, rd) != NULL){
+    while(fread(buffer, sizeof(char), n_char, rd) != 0){
         fwrite(buffer, sizeof(char), n_char, wt);
     }
     // get done time
@@ -42,7 +42,5 @@ int main(int argc, char* argv[])
     }
     printf("Time cost:   %ld.%ld\n", tv2.tv_sec - tv1.tv_sec, 
             tv2.tv_usec - tv1.tv_usec);
-    fclose(rd);
-    fclose(wt);
     exit(0);
 }
