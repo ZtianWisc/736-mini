@@ -47,8 +47,8 @@ int main(int argc, char* argv[])
     printf("Time cost:   %ld.%ld\n", tv2.tv_sec - tv1.tv_sec, 
             tv2.tv_usec - tv1.tv_usec);
     printf("Throughput: %Lf MB/s\n", 
-            bytes/(1024 * 1024)/(tv2.tv_sec-tv1.tv_sec 
-            + (double)((tv2.tv_usec-tv1.tv_usec)/10000000)));
+            bytes/(1024 * 1024)/((double)(tv2.tv_sec-tv1.tv_sec)
+            + (double)(tv2.tv_usec-tv1.tv_usec)/1000000));
     fclose(rd);
     fclose(wt);
     exit(0);
