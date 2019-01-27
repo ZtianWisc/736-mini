@@ -11,14 +11,10 @@ int main(int argc, char* argv[])
     char *io_buffer;
 
     rd = fopen("read", "rd");
-    if (rd == NULL)
-    {
-        perror("fopen failed\n");
-        return -1;
+    wt = fopen("write", "wb");
+    if (rd == NULL || wt == NULL){
+        exit(1);
     }
-
-    io_bufsize = __fbufsize(rd);
-    printf("The buffer size is %zd\n", io_bufsize);
     if (strcmp(argv[1], "-d")==0){
         setvbuf(rd, NULL, _IONBF, 0);
     } else {
@@ -27,5 +23,14 @@ int main(int argc, char* argv[])
     }
     io_bufsize = __fbufsize(rd);
     printf("The buffer size is %zd\n", io_bufsize);
+
+    // write from read to write
+    size_t n_char = atoi(argv[2]);
+    char* buffer = (char*) malloc(n_char * sizeof(char));
+    while(fread(buffer, sizeof(char), n_char, rd) != NULL){
+        fwrite(buffer, sizeof(char), n_char, wt);
+    }
+    fclose(rd);
+    fclose(wt);
     exit(0);
 }
