@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     if (strcmp(argv[1], "-d")==0){
         setvbuf(rd, NULL, _IONBF, 0);
     } else {
-        buffer = (char*) malloc(atoi(argv[1]) * sizeof(char));
+        io_buffer = (char*) malloc(atoi(argv[1]) * sizeof(char));
         setvbuf(rd, io_buffer, _IOFBF, atoi(argv[1]));
     }
     io_bufsize = __fbufsize(rd);
