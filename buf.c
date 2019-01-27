@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     size_t io_bufsize;
     char *io_buffer;
 
-    f = fopen("read", "wb");
+    rd = fopen("read", "rd");
     if (rd == NULL)
     {
         perror("fopen failed\n");
