@@ -48,8 +48,9 @@ int main(int argc, char* argv[])
         }
         size_t bytes_written = 0;
         while (bytes_written < n_bytes_per_file){
-            strcpy(fwrite_buffer, "a");
-            bytes_written += fwrite(fwrite_buffer, sizeof(char), n_buffer, wt);
+            fwrite_buffer[0] = 'a';
+            fwrite_buffer[1] = '\0';
+            bytes_written += fwrite(fwrite_buffer, sizeof(char), strlen(fwrite_buffer) + 1, wt);
         }
         fclose(wt);
     }
