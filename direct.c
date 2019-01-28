@@ -11,6 +11,7 @@ int main(int argc, char* argv[])
     size_t n_files_write;
     size_t n_buffer;
     char* fwrite_buffer = (char*) malloc(n_buffer * sizeof(char));
+    int direct_io;
 
     if (argc != 5){
         printf("Usage: ./direct #_of_bytes_per_file #_of_files_to_write -b/-d fwrite_buffer_size");
@@ -22,10 +23,9 @@ int main(int argc, char* argv[])
     n_files_write = atoi(argv[2]);
     // parse direct io / bufferred io
     if (strcmp(argv[3], "-d")==0){
-        setvbuf(wt, NULL, _IONBF, 0);
+        direct_io = 1;
     } else if (strcmp(argv[3], "-b")==0){
-        char *io_buffer = (char*) malloc(4096 * sizeof(char));
-        setvbuf(wt, io_buffer, _IOFBF, 4096);
+        direct_io = 0;
     } else {
         printf("Usage: ./direct #_of_bytes_per_file #_of_files_to_write -b/-d fwrite_buffer_size");
     }
@@ -39,6 +39,12 @@ int main(int argc, char* argv[])
         wt = fopen("dummy.txt", "w");
         if (wt == NULL){
             exit(1);
+        }
+        if (direct_io){
+            setvbuf(wt, NULL, _IONBF, 0);
+        } else {
+            char *io_buffer = (char*) malloc(4096 * sizeof(char));
+            setvbuf(wt, io_buffer, _IOFBF, 4096);
         }
         size_t bytes_written = 0;
         while (bytes_written < n_bytes_per_file){
@@ -55,4 +61,5 @@ int main(int argc, char* argv[])
     printf("Time cost:   %ld.%lds\n", tv2.tv_sec - tv1.tv_sec, 
             tv2.tv_usec - tv1.tv_usec);
     exit(0);
+}
 
