@@ -10,7 +10,6 @@ int main(int argc, char* argv[])
     size_t n_bytes_per_file;
     size_t n_files_write;
     size_t n_buffer;
-    char* fwrite_buffer = (char*) malloc(n_buffer * sizeof(char));
     int direct_io;
 
     if (argc != 5){
@@ -31,6 +30,7 @@ int main(int argc, char* argv[])
     }
     // parse fwrite buffer size
     n_buffer = atoi(argv[4]);
+    char* fwrite_buffer = (char*) malloc(n_buffer * sizeof(char));
     // start writting files
     gettimeofday(&tv1, NULL);
     size_t files_written = 0;
