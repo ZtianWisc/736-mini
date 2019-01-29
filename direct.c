@@ -30,12 +30,12 @@ int main(int argc, char* argv[])
     }
     // parse fwrite buffer size
     n_buffer = atoi(argv[4]);
-    char* fwrite_buffer = (char*) malloc(n_buffer * sizeof(char));
     // start writting files
     gettimeofday(&tv1, NULL);
     size_t files_written = 0;
     while (files_written < n_files_write){
         files_written++;
+        char* fwrite_buffer = (char*) malloc(n_buffer * sizeof(char));
         wt = fopen("dummy.txt", "w");
         if (wt == NULL){
             exit(1);
