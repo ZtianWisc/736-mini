@@ -39,11 +39,12 @@ int
 main(int argc, char *argv[])
 {
     struct timeval tv1, tv2;
-    if (argc != 3) {
-      fprintf(stderr, "usage: ./spin [inc | fib] #loops\n");
+    if (argc != 4) {
+      fprintf(stderr, "usage: ./spin [inc | fib] #loops #threads\n");
       exit(1);
     }
     loops = atoi(argv[2]);
+    n_threads = atoi(argv[3]);
     pthread_t p[n_threads];
     pthread_spin_init(&lock, pshared);
     gettimeofday(&tv1, NULL);

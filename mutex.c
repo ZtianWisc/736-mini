@@ -38,10 +38,11 @@ int main(int argc, char *argv[])
 {
     struct timeval tv1, tv2;
     if (argc != 3) {
-      fprintf(stderr, "usage: ./mutex [inc | fib] #loops\n");
+      fprintf(stderr, "usage: ./mutex [inc | fib] #loops #threads\n");
       exit(1);
     }
     loops = atoi(argv[2]);
+    n_threads = atoi(argv[3]);
     pthread_t p[n_threads];
     pthread_mutex_init(&lock, NULL);
     gettimeofday(&tv1, NULL);
