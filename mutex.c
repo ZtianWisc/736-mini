@@ -37,7 +37,7 @@ void *fib(void *arg){
 int main(int argc, char *argv[])
 {
     struct timeval tv1, tv2;
-    if (argc != 3) {
+    if (argc != 4) {
       fprintf(stderr, "usage: ./mutex [inc | fib] #loops #threads\n");
       exit(1);
     }
