@@ -20,7 +20,7 @@ void *increment(void *arg) {
     pthread_exit(NULL);
 }
 
-long long fib_rec(long long n){
+long long fib_rec(int n){
   if (n < 2) {
     return (long) 1;
   } else {
