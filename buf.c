@@ -37,11 +37,10 @@ int main(int argc, char* argv[])
         fwrite(buffer, sizeof(char), n_char, wt);
     }
     // get done time
-    gettimeofday(&tv2, NULL);
-
-    printf("Time cost:   (%ld).(%ld)\n", tv2.tv_sec - tv1.tv_sec, 
-            tv2.tv_usec - tv1.tv_usec);
     fclose(rd);
     fclose(wt);
+    gettimeofday(&tv2, NULL);
+    printf("Time cost:   (%ld).(%ld)\n", tv2.tv_sec - tv1.tv_sec,
+           tv2.tv_usec - tv1.tv_usec);
     exit(0);
 }
