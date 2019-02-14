@@ -53,6 +53,7 @@ int main(int argc, char* argv[])
             bytes_written += fwrite(fwrite_buffer, sizeof(char), strlen(fwrite_buffer) + 1, wt);
         }
         fclose(wt);
+        free(fwrite_buffer);
     }
     gettimeofday(&tv2, NULL);
     if (tv1.tv_usec > tv2.tv_usec){

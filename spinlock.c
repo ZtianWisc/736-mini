@@ -57,7 +57,7 @@ main(int argc, char *argv[])
         pthread_create(&p[i], NULL, fib, NULL);
       }
     } else {
-      fprintf(stderr, "usage: ./spin [inc | fib] #loops\n");
+      fprintf(stderr, "usage: ./spin [inc | fib] #loops #threads\n");
       exit(1);
     }
     for (int i = 0; i < n_threads; i++){
