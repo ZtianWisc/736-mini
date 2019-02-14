@@ -65,10 +65,10 @@ main(int argc, char *argv[])
     }
     gettimeofday(&tv2, NULL);
     pthread_spin_destroy(&lock);
-    if (tv1.tv_usec > tv2.tv_usec){
+    /*if (tv1.tv_usec > tv2.tv_usec){
       tv2.tv_sec--;
       tv2.tv_usec += 1000000;
-    }
-    printf("Time cost - %ld.%ld\n", tv2.tv_sec - tv1.tv_sec, tv2.tv_usec - tv1.tv_usec);
+    }*/
+    printf("Time cost - (%ld).(%ld)\n", tv2.tv_sec - tv1.tv_sec, tv2.tv_usec - tv1.tv_usec);
     return 0;
 }
