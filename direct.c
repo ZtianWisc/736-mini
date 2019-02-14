@@ -56,11 +56,11 @@ int main(int argc, char* argv[])
         free(fwrite_buffer);
     }
     gettimeofday(&tv2, NULL);
-    if (tv1.tv_usec > tv2.tv_usec){
+    /*if (tv1.tv_usec > tv2.tv_usec){
       tv2.tv_sec--;
       tv2.tv_usec += 1000000;
-    }
-    printf("Time cost:   %ld.%lds\n", tv2.tv_sec - tv1.tv_sec, 
+    }*/
+    printf("Time cost:   (%ld).(%ld)\n", tv2.tv_sec - tv1.tv_sec, 
             tv2.tv_usec - tv1.tv_usec);
     exit(0);
 }
